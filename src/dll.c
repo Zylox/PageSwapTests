@@ -1,6 +1,6 @@
 //Doubly Linked list
 
-#include "dll.h"
+#include "../include/dll.h"
 
 DoublyLinkedList* createEmptyList(){
 	Dll_t* dll = malloc(sizeof(DoublyLinkedList));
