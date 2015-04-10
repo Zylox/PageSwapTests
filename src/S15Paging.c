@@ -291,7 +291,7 @@ PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, uns
 	}
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
-		return null;
+		return NULL;
 	}
 	
 	unsigned short fn = findFirstOpenFrame();
@@ -306,7 +306,7 @@ PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, uns
 	result->frameReplaced = fn;
 	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
-	frameTable.FN[fn].accessed = BIT_SET;
+	frameTable.FT[fn].accessed = BIT_SET;
 	return result;
 }
 
@@ -325,7 +325,7 @@ static unsigned short findLFUframe(){
 	unsigned short minLoc = 0;
 	unsigned short cBits = 0;
 	for(i = 1; i< MAX_FRAMES; i++){ //technically you could iterate to ft.size but whatever
-		cBits = countBits(frameTable.FT[i].accessPattern)
+		cBits = countBits(frameTable.FT[i].accessPattern);
 		if(cBits < min){
 			min =cBits;
 			minLoc = i;
