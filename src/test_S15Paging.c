@@ -138,21 +138,21 @@ int main (int argc, char **argv) {
 	/*
 	 * TESTING LRU PAGE SWAP ALGORITHM
 	 **/
-	printf("LRU PAGE SWAP ALGORITHM\n");
-	printf("------------------------------------\n");
+	// printf("LRU PAGE SWAP ALGORITHM\n");
+	// printf("------------------------------------\n");
 
-	initialize_page_table();
-	initialize_frame_table();
-	for (i = 0; i < numOfPagePairs; ++i) {
-		results = least_recently_used (pageTestPairs[i].pageNumber,pageTestPairs[i].timeInterval);
-		if(results) {
-			printf("%u)PAGE FAULT: Page Requested = %u, Frame Replaced = %u, Page Replaced = %u\n",i,
-					results->pageRequested,results->frameReplaced,results->pageReplaced);
-			free(results);
-			results = NULL;
-		}
-	}
-	printf("------------------------------------\n");
+	// initialize_page_table();
+	// initialize_frame_table();
+	// for (i = 0; i < numOfPagePairs; ++i) {
+		// results = least_recently_used (pageTestPairs[i].pageNumber,pageTestPairs[i].timeInterval);
+		// if(results) {
+			// printf("%u)PAGE FAULT: Page Requested = %u, Frame Replaced = %u, Page Replaced = %u\n",i,
+					// results->pageRequested,results->frameReplaced,results->pageReplaced);
+			// free(results);
+			// results = NULL;
+		// }
+	// }
+	// printf("------------------------------------\n");
 
 	/*
 	 * TESTING LRU APPOX PAGE SWAP ALGORITHM
