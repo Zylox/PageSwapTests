@@ -200,6 +200,7 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 	
 	unsigned short fn = findFirstOpenFrame();
 	if(fn == NOTHING_SENTINEL){
+		printf("dohhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n"):
 		fn = getBackAndRemove(fifo);
 	}else{
 		frameTable.size += 1;
