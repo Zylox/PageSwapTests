@@ -162,7 +162,7 @@ static unsigned short findFirstOpenFrame(){
 	return ((unsigned short) frameTable.size)+1;
 }
 
-static int addToFrameTable(int i, unsigned short page_number){
+static void addToFrameTable(int i, unsigned short page_number){
 	FrameEntry_t* frame = &(frameTable.FT[i]);
 	if(frame->pageNum != NOTHING_SENTINEL){
 		pageTable.PT[frame->pageNum].valid = BIT_UNSET;
@@ -187,7 +187,7 @@ static unsigned short getBackAndRemove(DLL* dll){
  
 
 PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned int time_interval) {
-	if(checkPageNum(pageNumber) < 0){
+	if(checkPageNum(page_number) < 0){
 		perror("Invalid page number, abort, abort");
 		return NULL;
 	}
@@ -204,10 +204,13 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 	}else{
 		frameTable.size += 1;
 	}
-	PageAlgorithmResults result = {page_number, fn, frameTable.FT[fn].pageNum};
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = page_number;
+	result->frameReplaced = fn;
+	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);
 	appendToFront(fn, fifo);
-	return &result;	
+	return result;	
 }
 
 static void findRemove(unsigned short frameNum, DLL* dll){
