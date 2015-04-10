@@ -111,8 +111,8 @@ void initialize_page_table() {
 	memset(&pageTable,0,sizeof(PageTable_t));	
 	int i = 0;
 	for(i = 0; i<MAX_PAGES; i++){
-		pageTable.PN[i].valid = BIT_UNSET;
-		pageTable.PN[i].frameNumMapped = NOTHING_SENTINEL;
+		pageTable.PT[i].valid = BIT_UNSET;
+		pageTable.PT[i].frameNumMapped = NOTHING_SENTINEL;
 	}
 }
 
