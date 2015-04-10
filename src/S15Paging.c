@@ -364,7 +364,7 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 	}
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
-		return null;
+		return NULL;
 	}
 	
 	unsigned short fn = findFirstOpenFrame();
