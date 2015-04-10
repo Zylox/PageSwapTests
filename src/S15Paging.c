@@ -234,7 +234,7 @@ static void findRemove(unsigned short frameNum, DLL* dll){
 }
 
 PageAlgorithmResults* least_recently_used(unsigned short page_number, unsigned int time_interval) {
-	if(checkPageNum(pageNumber) < 0){
+	if(checkPageNum(page_number) < 0){
 		perror("Invalid page number, abort, abort");
 		return NULL;
 	}
@@ -242,7 +242,7 @@ PageAlgorithmResults* least_recently_used(unsigned short page_number, unsigned i
 	if((pageTable.PT[page_number]).valid == BIT_SET){
 		//page table hit
 		findRemove(pageTable.PT[page_number].frameNumMapped, lru);
-		appendToFront(frameNumMapped, lru);
+		appendToFront(pageTable.PT[page_number].frameNumMapped, lru);
 		return NULL;
 	}
 	
@@ -253,11 +253,14 @@ PageAlgorithmResults* least_recently_used(unsigned short page_number, unsigned i
 		frameTable.size += 1;
 	}
 	
-	PageAlgorithmResults result = {page_number, fn, frameTable.FT[fn].pageNum};
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = page_number;
+	result->frameReplaced = fn;
+	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);
 	appendToFront(fn, lru);
 
-	return &result;	
+	return result;	
 }
 
 static unsigned short findSmallestAccessPat(){
@@ -298,12 +301,13 @@ PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, uns
 		frameTable.size += 1;
 	}
 	
-	PageAlgorithmResults result = {page_number, fn, frameTable.FT[fn].pageNum};
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = page_number;
+	result->frameReplaced = fn;
+	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
 	frameTable.FN[fn].accessed = BIT_SET;
 	return result;
-
-	return NULL;
 }
 
 static unsigned short countBits(byte_t byte){
@@ -370,7 +374,10 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 		frameTable.size += 1;
 	}
 
-	PageAlgorithmResults result = {page_number, fn, frameTable.FT[fn].pageNum};
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = page_number;
+	result->frameReplaced = fn;
+	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
 	frameTable.FN[fn].accessed = BIT_SET;
 	return result;
@@ -401,7 +408,10 @@ PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned 
 		frameTable.size += 1;
 	}
 	
-	PageAlgorithmResults result = {page_number, fn, frameTable.FT[fn].pageNum};
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = page_number;
+	result->frameReplaced = fn;
+	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
 	frameTable.FN[fn].accessed = BIT_SET;
 	return result;
