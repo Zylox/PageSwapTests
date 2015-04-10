@@ -34,7 +34,7 @@ int isListEmpty(DoublyLinkedList* list){
 	return 0;
 }
 
-void appendToFront(const Datum dat, DoublyLinkedList* list){
+void appendToFront(const unsigned short dat, DoublyLinkedList* list){
 	Node* node = malloc(sizeof(Node));
 	node->datum = dat;
 	node->next = list->head;

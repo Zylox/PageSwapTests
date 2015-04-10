@@ -7,7 +7,7 @@
 #include"Datum.h"
 
 typedef struct Node{
-	Datum datum;
+	unsigned short datum;
 	struct Node* next;
 	struct Node* prev;
 } Node;
@@ -23,7 +23,7 @@ typedef DoublyLinkedList DLL;
 DoublyLinkedList* createEmptyList();
 void destroyList(DoublyLinkedList* list);
 int isListEmpty(DoublyLinkedList* list);
-void appendToFront(const Datum dat, DoublyLinkedList* list);
+void appendToFront(const unsigned short dat, DoublyLinkedList* list);
 void appendToBack(const Datum dat, DoublyLinkedList* list);
 void removeFromBack(DoublyLinkedList* list);
 void removeFromFront(DoublyLinkedList* list);

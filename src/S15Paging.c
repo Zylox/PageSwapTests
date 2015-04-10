@@ -200,10 +200,8 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 	
 	unsigned short fn = findFirstOpenFrame();
 	if(fn == NOTHING_SENTINEL){
-		printf("dohhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 		fn = getBackAndRemove(fifo);
 	}else{
-		printf("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 		frameTable.size += 1;
 	}
 	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
