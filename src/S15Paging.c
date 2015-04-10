@@ -156,7 +156,7 @@ static int checkPageNum(unsigned short page_number){
 }
 
 static unsigned short findFirstOpenFrame(){
-	if(frameTable.size = MAX_FRAMES){
+	if(frameTable.size == MAX_FRAMES){
 		return NOTHING_SENTINEL;
 	}
 	return ((unsigned short) frameTable.size)+1;
@@ -171,8 +171,8 @@ static int addToFrameTable(int i, unsigned short page_number){
 	frame->pageNum = page_number;
 	frame->accessed = BIT_UNSET;
 	frame->accessPattern = 0;
-	pageTable.PN[page_number].valid = BIT_SET;
-	pageTable.PN[page_number].frameNumMapped = fn;
+	pageTable.PT[page_number].valid = BIT_SET;
+	pageTable.PT[page_number].frameNumMapped = i;
 	//frame->data nothing to do here
 }
 
@@ -181,7 +181,7 @@ static unsigned short getBackAndRemove(DLL* dll){
 		perror("tried to pull the back of an empty queue");
 	}
 	unsigned short frameNum = getDatumFromBack(dll);
-	removeFromBack();
+	removeFromBack(dll);
 	return frameNum;
 }
  
