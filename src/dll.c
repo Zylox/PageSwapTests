@@ -2,7 +2,7 @@
 
 #include "../include/dll.h"
 
-DoublyLinkedList* createEmptyList(){
+Dll_t* createEmptyList(){
 	Dll_t* dll = malloc(sizeof(DoublyLinkedList));
 	dll->head = NULL;
 	dll->tail = NULL;
