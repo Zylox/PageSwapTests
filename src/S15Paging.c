@@ -157,7 +157,6 @@ static int checkPageNum(unsigned short page_number){
 
 static unsigned short findFirstOpenFrame(){
 	if(frameTable.size == MAX_FRAMES){
-		printf("reached end\n");
 		return NOTHING_SENTINEL;
 	}
 	return ((unsigned short) frameTable.size);
@@ -201,10 +200,8 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 	
 	unsigned short fn = findFirstOpenFrame();
 	if(fn == NOTHING_SENTINEL){
-		printf("heyo\n");
 		fn = getBackAndRemove(fifo);
 	}else{
-			printf("fn: %d\n", fn);
 		frameTable.size += 1;
 	}
 	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
@@ -232,6 +229,7 @@ static void findRemove(unsigned short frameNum, DLL* dll){
 				return;
 			}
 		}
+		foundNode = foundNode->next;
 	}
 	//node not found
 }
