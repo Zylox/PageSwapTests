@@ -3,7 +3,7 @@
 #include "../include/dll.h"
 
 Dll_t* createEmptyList(){
-	Dll_t* dll = malloc(sizeof(DoublyLinkedList));
+	Dll_t* dll = malloc(sizeof(Dll_t));
 	dll->head = NULL;
 	dll->tail = NULL;
 	dll->size = 0;
@@ -12,8 +12,8 @@ Dll_t* createEmptyList(){
 
 
 void destroyList(Dll_t* list){
-	Node* iter = list->head;
-	Node* temp = iter;
+	Node_t* iter = list->head;
+	Node_t* temp = iter;
 	if(iter != NULL){
 		while(iter->next != NULL){
 			temp = iter;
