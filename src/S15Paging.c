@@ -203,6 +203,7 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 		printf("heyo\n");
 		fn = getBackAndRemove(fifo);
 	}else{
+			printf("asdfasdfasdfeyo\n");
 		frameTable.size += 1;
 	}
 	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
