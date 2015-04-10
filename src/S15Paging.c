@@ -157,6 +157,7 @@ static int checkPageNum(unsigned short page_number){
 
 static unsigned short findFirstOpenFrame(){
 	if(frameTable.size == MAX_FRAMES){
+		printf("reached end\n");
 		return NOTHING_SENTINEL;
 	}
 	return ((unsigned short) frameTable.size)+1;
