@@ -122,17 +122,16 @@ void initialize_frame_table () {
 	for(i = 0; i<MAX_FRAMES; i++){
 		frameTable.FT[i].pageNum = NOTHING_SENTINEL;
 	}
-	/* TODO: */
-	/* Implement the clearing and/or resetting of your 
-	   linear data structure for LRU and FIFO*/
-	   if(fifo != NULL){
-			destroyList(fifo);
-	   }
-	   if(lru != NULL){
-			destroyList(lru);
-	   }
-	   fifo = createEmptyList();
-	   lru = createEmptyList();
+
+	
+   if(fifo != NULL){
+		destroyList(fifo);
+   }
+   if(lru != NULL){
+		destroyList(lru);
+   }
+   fifo = createEmptyList();
+   lru = createEmptyList();
 }
 
 
@@ -147,14 +146,30 @@ void initialize_frame_table () {
  * struct inside of S15Paging.h, and/or test_S15Paging.c
  **/
  
+ /**
+	Checks that the page number is a legal one.
+ */
 static int checkPageNum(unsigned short page_number){
 	if(page_number < 0 || page_number > MAX_PAGES-1){
 		return -1;
 	}
-	
 	return 1;
 }
 
+/**
+	Packages result data into one result struct.
+*/
+static PageAlgorithmResults* makeResult(unsigned short pageRequested, unsigned short frameReplaced, unsigned short pageReplaced){
+	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
+	result->pageRequested = pageRequested;
+	result->frameReplaced = frameReplaced;
+	result->pageReplaced = pageReplaced;
+	return result;
+}
+
+/**
+	Finds the first unoccupied frame in the frame table
+*/
 static unsigned short findFirstOpenFrame(){
 	if(frameTable.size == MAX_FRAMES){
 		return NOTHING_SENTINEL;
@@ -162,6 +177,10 @@ static unsigned short findFirstOpenFrame(){
 	return ((unsigned short) frameTable.size);
 }
 
+/**
+	Add's frame at index i to table, removing the previous entry and putting in the
+	new page.
+*/
 static void addToFrameTable(int i, unsigned short page_number){
 	FrameEntry_t* frame = &(frameTable.FT[i]);
 	if(frame->pageNum != NOTHING_SENTINEL){
@@ -176,6 +195,9 @@ static void addToFrameTable(int i, unsigned short page_number){
 	//frame->data nothing to do here
 }
 
+/**
+	Retreives then removes the back of the list, or the front of the queue.
+*/
 static unsigned short getBackAndRemove(DLL* dll){
 	if(dll->size == 0){
 		perror("tried to pull the back of an empty queue");
@@ -199,20 +221,21 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 	
 	
 	unsigned short fn = findFirstOpenFrame();
+	//if the frame number returns as NOTHING_SENTINEL, there is no room and a swap must occur
 	if(fn == NOTHING_SENTINEL){
 		fn = getBackAndRemove(fifo);
 	}else{
 		frameTable.size += 1;
 	}
-	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
-	result->pageRequested = page_number;
-	result->frameReplaced = fn;
-	result->pageReplaced = frameTable.FT[fn].pageNum;
+	PageAlgorithmResults* result = makeResult(page_number, fn, frameTable.FT[fn].pageNum);
 	addToFrameTable(fn, page_number);
 	appendToFront(fn, fifo);
 	return result;	
 }
 
+/**
+	Finds and removes the node cooresponding to the frameNum
+*/
 static void findRemove(unsigned short frameNum, DLL* dll){
 	Node_t* foundNode = dll->head;
 	while(foundNode!=NULL){
@@ -251,17 +274,17 @@ PageAlgorithmResults* least_recently_used(unsigned short page_number, unsigned i
 	}else{
 		frameTable.size += 1;
 	}
-	
-	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
-	result->pageRequested = page_number;
-	result->frameReplaced = fn;
-	result->pageReplaced = frameTable.FT[fn].pageNum;
+		
+	PageAlgorithmResults* result = makeResult(page_number, fn, frameTable.FT[fn].pageNum);
 	addToFrameTable(fn, page_number);
 	appendToFront(fn, lru);
 
 	return result;	
 }
 
+/**
+	Finds the smallest number of all the accessPatterns in the frameTable
+*/
 static unsigned short findSmallestAccessPat(){
 	unsigned short i = 1;
 	byte_t min = frameTable.FT[0].accessPattern;
@@ -275,19 +298,26 @@ static unsigned short findSmallestAccessPat(){
 	return minLoc;
 }
 
-PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, unsigned int time_interval) {
-	if(checkPageNum(page_number) < 0){
-		perror("Invalid page number, abort, abort");
-		return NULL;
-	}
-	
-	if(time_interval%99 == 0){
+/**
+	updates the accesspattern in the frame entries when a certain number of accesses have happened
+*/
+void incrementOnTime(unsigned int time_interval){
+		if(time_interval%99 == 0){
 		int i = 0;
 		for(i=0;i<MAX_FRAMES;i++){
 			frameTable.FT[i].accessPattern >>= 1;
 			frameTable.FT[i].accessPattern += 128*frameTable.FT[i].accessed;
 		}
 	}
+}
+
+PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, unsigned int time_interval) {
+	if(checkPageNum(page_number) < 0){
+		perror("Invalid page number, abort, abort");
+		return NULL;
+	}
+	
+	incrementOnTime(time_interval);
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
 		return NULL;
@@ -300,10 +330,7 @@ PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, uns
 		frameTable.size += 1;
 	}
 	
-	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
-	result->pageRequested = page_number;
-	result->frameReplaced = fn;
-	result->pageReplaced = frameTable.FT[fn].pageNum;
+	PageAlgorithmResults* result = makeResult(page_number, fn, frameTable.FT[fn].pageNum);
 	addToFrameTable(fn, page_number);	
 	frameTable.FT[fn].accessed = BIT_SET;
 	return result;
@@ -354,13 +381,7 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 		return NULL;
 	}
 	
-	if(time_interval%99 == 0){
-		int i = 0;
-		for(i=0;i<MAX_FRAMES;i++){
-			frameTable.FT[i].accessPattern >>= 1;
-			frameTable.FT[i].accessPattern += 126*frameTable.FT[i].accessed;
-		}
-	}
+	incrementOnTime(time_interval);
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
 		return NULL;
@@ -373,10 +394,7 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 		frameTable.size += 1;
 	}
 
-	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
-	result->pageRequested = page_number;
-	result->frameReplaced = fn;
-	result->pageReplaced = frameTable.FT[fn].pageNum;
+	PageAlgorithmResults* result = makeResult(page_number, fn, frameTable.FT[fn].pageNum);
 	addToFrameTable(fn, page_number);	
 	frameTable.FT[fn].accessed = BIT_SET;
 	return result;
@@ -388,13 +406,7 @@ PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned 
 		return NULL;
 	}
 	
-	if(time_interval%99 == 0){
-		int i = 0;
-		for(i=0;i<MAX_FRAMES;i++){
-			frameTable.FT[i].accessPattern >>= 1;
-			frameTable.FT[i].accessPattern += 126*frameTable.FT[i].accessed;
-		}
-	}
+	incrementOnTime(time_interval);
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
 		return NULL;
@@ -407,10 +419,7 @@ PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned 
 		frameTable.size += 1;
 	}
 	
-	PageAlgorithmResults* result = malloc(sizeof(PageAlgorithmResults));
-	result->pageRequested = page_number;
-	result->frameReplaced = fn;
-	result->pageReplaced = frameTable.FT[fn].pageNum;
+	PageAlgorithmResults* result = makeResult(page_number, fn, frameTable.FT[fn].pageNum);
 	addToFrameTable(fn, page_number);	
 	frameTable.FT[fn].accessed = BIT_SET;
 	return result;

@@ -1,0 +1,11 @@
+Zachary Higginbotham project 2
+
+Whenever there was a page fault, but room was available in the table, i set the pageReplaced to 65535
+as a sentinel value.
+
+Currenlty, at the time of writing this, the LRU algorithm does not work because somehow my list
+ends up with a circular node. I have no idea how this is happening but...it is. Probably a stupid mistake
+beyond measure. All others seem to work, although we were given no confirmation cases.
+
+
+
