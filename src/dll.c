@@ -62,7 +62,7 @@ void removeFromBack(Dll_t* list){
 	free(nodeToRem);
 }
 
-Datum getDatumFromBack(Dll_t* list){
+unsigned short getDatumFromBack(Dll_t* list){
 	if(list->tail != NULL){
 		return list->tail->datum;
 	}
