@@ -379,7 +379,7 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 	result->frameReplaced = fn;
 	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
-	frameTable.FN[fn].accessed = BIT_SET;
+	frameTable.FT[fn].accessed = BIT_SET;
 	return result;
 }
 
