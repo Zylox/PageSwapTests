@@ -32,11 +32,11 @@ static VBS_Type* vbs;
  * ---------------------------------------------------
  **/
 
- #define BIT_SET 1;
- #define BIT_UNSET 0;
- #define MAX_FRAMES 512;
- #define MAX_PAGES 2048;
- #define NOTHING_SENTINEL 65535;
+ #define BIT_SET 1
+ #define BIT_UNSET 0
+ #define MAX_FRAMES 512
+ #define MAX_PAGES 2048
+ #define NOTHING_SENTINEL 65535
  
  typedef unsigned char byte_t;
  typedef unsigned char bit_t;
