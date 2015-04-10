@@ -217,17 +217,15 @@ static void findRemove(unsigned short frameNum, DLL* dll){
 	Node_t* foundNode = dll->head;
 	while(foundNode!=NULL){
 		if(foundNode->datum == frameNum){
-			if(foundNode != NULL){
-				if(foundNode->next != NULL){
-					foundNode->next->prev = foundNode->prev;
-				}
-				if(foundNode->prev != NULL){
-					foundNode->prev->next = foundNode->next;
-				}
-				dll->size -= 1;
-				free(foundNode);
-				return;
+			if(foundNode->next != NULL){
+				foundNode->next->prev = foundNode->prev;
 			}
+			if(foundNode->prev != NULL){
+				foundNode->prev->next = foundNode->next;
+			}
+			dll->size -= 1;
+			free(foundNode);
+			return;
 		}
 		foundNode = foundNode->next;
 	}
