@@ -214,7 +214,7 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 }
 
 static void findRemove(unsigned short frameNum, DLL* dll){
-	Node* foundNode = list->head;
+	Node* foundNode = dll->head;
 	while(foundNode!=NULL){
 		if(foundNode->datum == frameNum){
 			if(foundNode != NULL){
