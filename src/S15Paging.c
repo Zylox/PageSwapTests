@@ -4,7 +4,7 @@
 
 
 #include "../include/S15Paging.h"
-#include "../include/doublylinkedlist.h"
+#include "../include/dll.h"
 
 #define MAX_PAGE_TABLE_ENTRIES_COUNT 2048
 #define MAX_PHYSICAL_MEMORY_FRAME_COUNT 512
@@ -214,7 +214,7 @@ PageAlgorithmResults* first_in_first_out(unsigned short page_number, unsigned in
 }
 
 static void findRemove(unsigned short frameNum, DLL* dll){
-	Node* foundNode = dll->head;
+	Node_t* foundNode = dll->head;
 	while(foundNode!=NULL){
 		if(foundNode->datum == frameNum){
 			if(foundNode != NULL){
