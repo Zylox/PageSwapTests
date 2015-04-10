@@ -340,7 +340,7 @@ static unsigned short findMFUframe(){
 	unsigned short maxLoc = 0;
 	unsigned short cBits = 0;
 	for(i = 1; i< MAX_FRAMES; i++){ //technically you could iterate to ft.size but whatever
-		cBits = countBits(frameTable.FT[i].accessPattern)
+		cBits = countBits(frameTable.FT[i].accessPattern);
 		if(cBits > max){
 			max = cBits;
 			maxLoc = i;
