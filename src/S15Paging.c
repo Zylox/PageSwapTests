@@ -160,7 +160,7 @@ static unsigned short findFirstOpenFrame(){
 		printf("reached end\n");
 		return NOTHING_SENTINEL;
 	}
-	return ((unsigned short) frameTable.size)+1;
+	return ((unsigned short) frameTable.size);
 }
 
 static void addToFrameTable(int i, unsigned short page_number){
