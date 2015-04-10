@@ -277,7 +277,7 @@ static unsigned short findSmallestAccessPat(){
 }
 
 PageAlgorithmResults* least_recently_used_approx(unsigned short page_number, unsigned int time_interval) {
-	if(checkPageNum(pageNumber) < 0){
+	if(checkPageNum(page_number) < 0){
 		perror("Invalid page number, abort, abort");
 		return NULL;
 	}
@@ -350,7 +350,7 @@ static unsigned short findMFUframe(){
 }
 
 PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned int time_interval) {
-		if(checkPageNum(pageNumber) < 0){
+		if(checkPageNum(page_number) < 0){
 		perror("Invalid page number, abort, abort");
 		return NULL;
 	}
@@ -384,7 +384,7 @@ PageAlgorithmResults* least_frequently_used(unsigned short page_number, unsigned
 }
 
 PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned int time_interval) {
-	if(checkPageNum(pageNumber) < 0){
+	if(checkPageNum(page_number) < 0){
 		perror("Invalid page number, abort, abort");
 		return NULL;
 	}
