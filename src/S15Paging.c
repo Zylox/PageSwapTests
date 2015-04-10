@@ -398,7 +398,7 @@ PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned 
 	}
 	
 	if((pageTable.PT[page_number]).valid == BIT_SET){
-		return null;
+		return NULL;
 	}
 	
 	unsigned short fn = findFirstOpenFrame();
@@ -413,7 +413,7 @@ PageAlgorithmResults* most_frequently_used(unsigned short page_number, unsigned 
 	result->frameReplaced = fn;
 	result->pageReplaced = frameTable.FT[fn].pageNum;
 	addToFrameTable(fn, page_number);	
-	frameTable.FN[fn].accessed = BIT_SET;
+	frameTable.FT[fn].accessed = BIT_SET;
 	return result;
 }
 
