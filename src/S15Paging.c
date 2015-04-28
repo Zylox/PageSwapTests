@@ -49,7 +49,7 @@ typedef struct {
 	unsigned short pageNum;
 	bit_t accessed;
 	byte_t accessPattern;
-	byte data[1024];
+	byte_t data[1024];
 }FrameEntry_t;
 
 
