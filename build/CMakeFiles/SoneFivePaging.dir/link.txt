@@ -1,0 +1,1 @@
+/usr/bin/cc   -g -std=c99 -D_XOPEN_SOURCE=500 -Wall   -shared -Wl,--enable-auto-import -o cygSoneFivePaging.dll -Wl,--out-implib,libSoneFivePaging.dll.a -Wl,--major-image-version,0,--minor-image-version,0 CMakeFiles/SoneFivePaging.dir/src/S15Paging.c.o CMakeFiles/SoneFivePaging.dir/src/dll.c.o -lvbs 

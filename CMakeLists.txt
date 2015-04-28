@@ -8,7 +8,7 @@ include_directories(${CMAKE_CURRENT_DIRECTORY}/include)
 add_library(SoneFivePaging SHARED src/S15Paging.c src/dll.c)
 
 install(TARGETS SoneFivePaging DESTINATION lib)
-install(FILES include/S15Paging.h include/Datum.h include/dll.h DESTINATION include)
+install(FILES include/S15Paging.h include/dll.h DESTINATION include)
 
 target_link_libraries(SoneFivePaging vbs)
 
